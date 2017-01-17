@@ -1,0 +1,23 @@
+{
+  "name": "node-bing-crawler",
+  "version": "1.0.0",
+  "description": "bing crawler by Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LitoMore/node-bing-crawler.git"
+  },
+  "author": "LitoMore",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LitoMore/node-bing-crawler/issues"
+  },
+  "homepage": "https://github.com/LitoMore/node-bing-crawler#readme",
+  "dependencies": {
+    "async": "^2.1.4",
+    "upyun": "^2.0.4"
+  }
+}
