@@ -18,15 +18,23 @@ Create the config file
 $ cp config.json.example config.json
 ```
 
-Config your UpYun account in `config.json`
+Config your UpYun and Qiniu account in `config.json`
 
 ```
 {
-  "upyun_bucket_name": "bucket_name",
-  "upyun_operator_name": "operator_name",
-  "upyun_operator_pwd": "operator_pwd",
-  "local_path": "/images/",
-  "upyun_path": "/node_images/"
+  "LOCAL_PATH": "/images/",
+
+  "UPYUN_ENABLE": false,
+  "UPYUN_BUCKET_NAME": "bucket_name",
+  "UPYUN_OPERATOR_NAME": "operator_name",
+  "UPYUN_OPERATOR_PWD": "operator_pwd",
+  "UPYUN_PATH": "/node_images/",
+
+  "QINIU_ENABLE": false,
+  "QINIU_BUCKET": "bucket",
+  "QINIU_PATH": "/node_images/",
+  "QINIU_ACCESS_KEY": "access_key",
+  "QINIU_SECRET_KEY": "secret_key"
 }
 ```
 
