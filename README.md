@@ -32,9 +32,9 @@ Config your UpYun and Qiniu account in `config.json`
 
   "QINIU_ENABLE": false,
   "QINIU_BUCKET": "bucket",
-  "QINIU_PATH": "/node_images/",
   "QINIU_ACCESS_KEY": "access_key",
-  "QINIU_SECRET_KEY": "secret_key"
+  "QINIU_SECRET_KEY": "secret_key"，
+  "QINIU_PATH": "/node_images/"
 }
 ```
 
