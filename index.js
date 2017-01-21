@@ -14,7 +14,6 @@ const {
     MSS_ACCESS_KEY,
     MSS_SECRET_KEY,
     MSS_BUCKET,
-    MSS_DOMAIN,
     UPYUN_ENABLE,
     UPYUN_BUCKET_NAME,
     UPYUN_OPERATOR_NAME,
@@ -140,7 +139,7 @@ async.parallel({
                                     upyun_config.upyun = save_result.upyun_init;
                                     upyunPutFile(callback);
                                 } else {
-                                     callback(null, null)
+                                    callback(null, null)
                                 }
                             },
                             // 保存图片至七牛
@@ -340,7 +339,7 @@ function qiniuInit(callback) {
     qiniu.conf.ACCESS_KEY = QINIU_ACCESS_KEY;
     qiniu.conf.SECRET_KEY = QINIU_SECRET_KEY;
 
-    const token = new qiniu.rs.PutPolicy(QINIU_BUCKET + ':' + QINIU_PATH + bing_image.filename).token();
+    const token = new qiniu.rs.PutPolicy(QINIU_BUCKET + ':' + bing_image.filename).token();
     const extra = new qiniu.io.PutExtra();
 
     callback(null, {
@@ -353,7 +352,7 @@ function qiniuInit(callback) {
 function qiniuPutFile(callback) {
     qiniu.io.putFile(
         qiniu_confg.token,
-        QINIU_PATH + bing_image.filename,
+        bing_image.filename,
         __dirname + LOCAL_PATH + bing_image.filename,
         qiniu_confg.extra,
         function (err, ret) {
