@@ -6,9 +6,15 @@ const async = require('async');
 const fs = require('fs');
 const UpYun = require('upyun');
 const qiniu = require('qiniu');
+const MSS = require('mss-sdk');
 
 const {
     LOCAL_PATH,
+    MSS_ENABLE,
+    MSS_ACCESS_KEY,
+    MSS_SECRET_KEY,
+    MSS_BUCKET,
+    MSS_DOMAIN,
     UPYUN_ENABLE,
     UPYUN_BUCKET_NAME,
     UPYUN_OPERATOR_NAME,
@@ -48,6 +54,10 @@ let bing_image = {
     local_path: null,
     upyun_path: null,
     data: null,
+};
+
+let mss_config = {
+    s3: null,
 };
 
 let upyun_config = {
@@ -113,6 +123,14 @@ async.parallel({
                             callback(null, null);
                         }
                     },
+                    mss_init: function (callback) {
+                        if (MSS_ENABLE) {
+                            mssInit(callback);
+                        } else {
+                            console.log('MSS disabled');
+                            callback(null, null);
+                        }
+                    }
                 }, function (save_err, save_result) {
                     if (!save_err) {
                         async.parallel({
@@ -135,6 +153,15 @@ async.parallel({
                                     callback(null, null);
                                 }
                             },
+                            // 保存图片至美团云
+                            mssPut: function (callback) {
+                                if (MSS_ENABLE) {
+                                    mss_config.s3 = save_result.mss_init;
+                                    mssPutFile(callback);
+                                } else {
+                                    callback(null, null);
+                                }
+                            }
                         }, function (save_err, save_result) {
                             if (!save_err) {
                                 console.log('Done.')
@@ -238,6 +265,30 @@ function localSave(callback) {
             }
         }
     );
+}
+
+// 准备美团云
+function mssInit(callback) {
+    const s3 = new MSS.S3({
+        accessKeyId: MSS_ACCESS_KEY,
+        secretAccessKey: MSS_SECRET_KEY,
+    });
+    callback(null, s3);
+}
+
+// 保存文件至美团云
+function mssPutFile(callback) {
+    const fileBuffer = fs.readFileSync(__dirname + LOCAL_PATH + bing_image.filename);
+    mss_config.s3.putObject({
+        Bucket: MSS_BUCKET,
+        Key: bing_image.filename,
+        Body: fileBuffer
+    }, function (err, ret) {
+        if (!err) {
+            console.log('Meituan saved.');
+            callback(null, ret);
+        }
+    });
 }
 
 // 准备又拍云

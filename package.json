@@ -18,6 +18,7 @@
   "homepage": "https://github.com/LitoMore/node-bing-crawler#readme",
   "dependencies": {
     "async": "^2.1.4",
+    "mss-sdk": "^2.0.0",
     "qiniu": "^6.1.13",
     "upyun": "^2.0.4"
   }

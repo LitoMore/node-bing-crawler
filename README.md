@@ -18,11 +18,17 @@ Create the config file
 $ cp config.json.example config.json
 ```
 
-Config your UpYun and Qiniu account in `config.json`
+Config your MSS, UpYun and Qiniu account in `config.json`
 
 ```
 {
   "LOCAL_PATH": "/images/",
+
+  "MSS_ENABLE": false,
+  "MSS_BUCKET": 'bucket',
+  "MSS_ACCESS_KEY": "access_key",
+  "MSS_SECRET_KEY": "secret_key",
+  "MSS_DOMAIN": "http://your_domain.com",
 
   "UPYUN_ENABLE": false,
   "UPYUN_BUCKET_NAME": "bucket_name",
