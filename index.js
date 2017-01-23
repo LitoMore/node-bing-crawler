@@ -114,6 +114,7 @@ async.parallel({
                             callback(null, null);
                         }
                     },
+                    // 准备七牛云
                     qiniu_init: function (callback) {
                         if (QINIU_ENABLE) {
                             qiniuInit(callback);
@@ -122,6 +123,7 @@ async.parallel({
                             callback(null, null);
                         }
                     },
+                    // 准备美团云
                     mss_init: function (callback) {
                         if (MSS_ENABLE) {
                             mssInit(callback);
