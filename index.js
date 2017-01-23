@@ -47,7 +47,7 @@ const options_2 = {
     path: '/cnhp/coverstory/',
 };
 
-let bing_image = {
+const bing_image = {
     url: null,
     filename: null,
     local_path: null,
@@ -55,18 +55,18 @@ let bing_image = {
     data: null,
 };
 
-let mss_config = {
+const mss_config = {
     s3: null,
 };
 
-let upyun_config = {
+const upyun_config = {
     bucket_name: null,
     operator_name: null,
     operator_pwd: null,
     upyun: null,
 };
 
-let qiniu_confg = {
+const qiniu_confg = {
     token: null,
     extra: null,
 };
