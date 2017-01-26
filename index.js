@@ -23,7 +23,6 @@ const {
     QINIU_BUCKET,
     QINIU_ACCESS_KEY,
     QINIU_SECRET_KEY,
-    QINIU_PATH,
 } = require('./config');
 
 
