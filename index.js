@@ -283,7 +283,8 @@ function mssPutFile(callback) {
     mss_config.s3.putObject({
         Bucket: MSS_BUCKET,
         Key: bing_image.filename,
-        Body: fileBuffer
+        Body: fileBuffer,
+        ContentType: 'image/jpeg',
     }, function (err, ret) {
         if (!err) {
             console.log('Meituan saved.');
@@ -324,7 +325,7 @@ function upyunPutFile(callback) {
     upyun_config.upyun.putFile(
         UPYUN_PATH + bing_image.filename,
         __dirname + LOCAL_PATH + bing_image.filename,
-        'image/jpg',
+        'image/jpeg',
         0,
         null,
         function (put_err, put_result) {
