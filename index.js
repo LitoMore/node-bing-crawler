@@ -72,40 +72,40 @@ const qiniu_confg = {
 
 async.parallel({
     // 请求壁纸接口
-    img: function (callback) {
+    img: (callback) => {
         getImg(callback);
     },
     // 请求简介接口
-    text: function (callback) {
+    text: (callback) => {
         getText(callback);
     },
     // 读取配置
-    config: function (callback) {
+    config: (callback) => {
         getConfig(callback);
     }
-}, function (request_err, request_result) {
+}, (request_err, request_result) => {
     if (!request_err) {
         bing_image.url = request_result.img.url;
         bing_image.filename = request_result.img.fullstartdate + '.jpg';
         async.parallel({
             // 下载图片
-            download: function (callback) {
+            download: (callback) => {
                 downloadImage(callback);
             },
             // 准备本地文件夹
-            local_dir: function (callback) {
+            local_dir: (callback) => {
                 initLocalDir(callback);
             },
-        }, function (crawler_err, crawler_result) {
+        }, (crawler_err, crawler_result) => {
             bing_image.data = crawler_result.download;
             if (!crawler_err) {
                 async.parallel({
                     // 保存文件到本地
-                    save: function (callback) {
+                    save: (callback) => {
                         localSave(callback);
                     },
                     // 准备又拍云
-                    upyun_init: function (callback) {
+                    upyun_init: (callback) => {
                         if (UPYUN_ENABLE) {
                             upyunInit(callback);
                         } else {
@@ -114,7 +114,7 @@ async.parallel({
                         }
                     },
                     // 准备七牛云
-                    qiniu_init: function (callback) {
+                    qiniu_init: (callback) => {
                         if (QINIU_ENABLE) {
                             qiniuInit(callback);
                         } else {
@@ -123,7 +123,7 @@ async.parallel({
                         }
                     },
                     // 准备美团云
-                    mss_init: function (callback) {
+                    mss_init: (callback) => {
                         if (MSS_ENABLE) {
                             mssInit(callback);
                         } else {
@@ -131,11 +131,11 @@ async.parallel({
                             callback(null, null);
                         }
                     }
-                }, function (save_err, save_result) {
+                }, (save_err, save_result) => {
                     if (!save_err) {
                         async.parallel({
                             // 保存图片至又拍云
-                            upyunPut: function (callback) {
+                            upyunPut: (callback) => {
                                 if (UPYUN_ENABLE) {
                                     upyun_config.upyun = save_result.upyun_init;
                                     upyunPutFile(callback);
@@ -144,7 +144,7 @@ async.parallel({
                                 }
                             },
                             // 保存图片至七牛
-                            qiniuPut: function (callback) {
+                            qiniuPut: (callback) => {
                                 if (QINIU_ENABLE) {
                                     qiniu_confg.token = save_result.qiniu_init.token;
                                     qiniu_confg.extra = save_result.qiniu_init.extra;
@@ -154,7 +154,7 @@ async.parallel({
                                 }
                             },
                             // 保存图片至美团云
-                            mssPut: function (callback) {
+                            mssPut: (callback) => {
                                 if (MSS_ENABLE) {
                                     mss_config.s3 = save_result.mss_init;
                                     mssPutFile(callback);
@@ -162,7 +162,7 @@ async.parallel({
                                     callback(null, null);
                                 }
                             }
-                        }, function (save_err, save_result) {
+                        }, (save_err, save_result) => {
                             if (!save_err) {
                                 console.log('Done.')
                             }
@@ -176,39 +176,39 @@ async.parallel({
 
 // 获取图片
 function getImg(callback) {
-    http.request(options_1, function (res) {
+    http.request(options_1, (res) => {
         let data = '';
         res.setEncoding('utf8');
-        res.on('data', function (chunk) {
+        res.on('data', (chunk) => {
             data += chunk;
         });
-        res.on('end', function () {
+        res.on('end', () => {
             callback(null, JSON.parse(data).images[0]);
         });
-    }).on('error', function (e) {
+    }).on('error', (e) => {
         console.log('Error: ' + e.message);
     }).end();
 }
 
 // 获取简介
 function getText(callback) {
-    http.request(options_2, function (res) {
+    http.request(options_2, (res) => {
         let data = '';
         res.setEncoding('utf8');
-        res.on('data', function (chunk) {
+        res.on('data', (chunk) => {
             data += chunk;
         });
-        res.on('end', function () {
+        res.on('end', () => {
             callback(null, JSON.parse(data));
         });
-    }).on('error', function (e) {
+    }).on('error', (e) => {
         console.log('Error: ' + e.message);
     }).end();
 }
 
 // 获取配置
 function getConfig(callback) {
-    fs.readFile(__dirname + '/config.json', 'utf-8', function (read_err, read_result) {
+    fs.readFile(__dirname + '/config.json', 'utf-8', (read_err, read_result) => {
         if (!read_err) {
             callback(null, JSON.parse(read_result));
         }
@@ -223,25 +223,25 @@ function downloadImage(callback) {
         port: 80,
         path: bing_image.url,
     };
-    http.request(download_option, function (res) {
+    http.request(download_option, (res) => {
         let data = '';
         res.setEncoding('binary');
-        res.on('data', function (chunk) {
+        res.on('data', (chunk) => {
             data += chunk;
         });
-        res.on('end', function () {
+        res.on('end', () => {
             callback(null, data);
         });
-    }).on('error', function (e) {
+    }).on('error', (e) => {
         console.log('Error: ' + e.message);
     }).end();
 }
 
 // 准备本地文件夹
 function initLocalDir(callback) {
-    fs.exists(__dirname + LOCAL_PATH, function (exist) {
+    fs.exists(__dirname + LOCAL_PATH, (exist) => {
         if (!exist) {
-            fs.mkdir(__dirname + LOCAL_PATH, function (mkdir_err, mkdir_result) {
+            fs.mkdir(__dirname + LOCAL_PATH, (mkdir_err, mkdir_result) => {
                 if (!mkdir_err) {
                     callback(null, mkdir_result);
                 }
@@ -258,7 +258,7 @@ function localSave(callback) {
         __dirname + LOCAL_PATH + bing_image.filename,
         bing_image.data,
         'binary',
-        function (fs_err) {
+        (fs_err) => {
             if (!fs_err) {
                 console.log('Local saved.')
                 callback(null, 'Saved!');
@@ -284,7 +284,7 @@ function mssPutFile(callback) {
         Key: bing_image.filename,
         Body: fileBuffer,
         ContentType: 'image/jpeg',
-    }, function (err, ret) {
+    }, (err, ret) => {
         if (!err) {
             console.log('Meituan saved.');
             callback(null, ret);
@@ -302,10 +302,10 @@ function upyunInit(callback) {
             apiVersion: 'v2'
         }
     );
-    upyun.headFile(UPYUN_PATH, function (file_err, file_result) {
+    upyun.headFile(UPYUN_PATH, (file_err, file_result) => {
         if (!file_err) {
             if (file_result.statusCode === 404) {
-                upyun.makeDir(UPYUN_PATH, function (make_dir_err, make_dir_result) {
+                upyun.makeDir(UPYUN_PATH, (make_dir_err, make_dir_result) => {
                     if (!make_dir_err) {
                         callback(null, upyun)
                     }
@@ -327,7 +327,7 @@ function upyunPutFile(callback) {
         'image/jpeg',
         0,
         null,
-        function (put_err, put_result) {
+        (put_err, put_result) => {
             if (!put_err) {
                 console.log('UpYun saved.')
                 callback(null, put_result);
@@ -357,7 +357,7 @@ function qiniuPutFile(callback) {
         bing_image.filename,
         __dirname + LOCAL_PATH + bing_image.filename,
         qiniu_confg.extra,
-        function (err, ret) {
+        (err, ret) => {
             if (!err) {
                 console.log('Qiniu saved.');
                 callback(null, ret);
