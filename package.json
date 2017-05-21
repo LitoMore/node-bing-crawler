@@ -11,7 +11,7 @@
     "url": "git+https://github.com/LitoMore/node-bing-crawler.git"
   },
   "author": "LitoMore",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/LitoMore/node-bing-crawler/issues"
   },
