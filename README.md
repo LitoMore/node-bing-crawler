@@ -49,3 +49,7 @@ $ node index.js
 ```
 
 Done!
+
+## License
+
+MIT © [LitoMore](https://github.com/LitoMore)
